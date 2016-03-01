@@ -5,140 +5,15 @@
     <link rel="stylesheet" type="text/css" href="css/all.css" />
 </head>
 <body>
-    <div class="wrapper">
-
-
-        <div id="app">
-            <template v-if="!finished">
-                <h1 style="font-size:400%;">{{ secondsRemaining }}</h1>
-                <h2>{{ wordsRemaining }} words remaining</h2>
-                <h1 style="font-size: 500%;">
-                    {{ currentWord.word }}
-                </h1>
-                <button v-on:click="next(true)" class="button ipad-target success">Correct</button>
-                <br />
-                <br />
-                <br />
-                <br />
-                <button v-on:click="next(false)" class="button ipad-target-small bad">Pass</button>
-            </template>
-            <template v-else>
-                <template v-if="wordsRemaining">
-                    <div style="font-size:450%;">
-                        Out of time, with {{ wordsRemaining }} unanswered words!
-                    </div>
-                </template>
-                <template v-else>
-                    <div style="font-size:450%;">
-                        You did it with {{ secondsRemaining }} seconds left!
-                    </div>
-                </template>
-
-            </template>
-
+<div class="wrapper">
+    <div id="app">
+        <h1>Choose Game</h1>
+        <div>
+            <a href="game.html#d29yZDEsIHdvcmQyLCB3b3JkMw==" class="button massive">
+                Game 1
+            </a>
         </div>
     </div>
-
-
-    <script>
-
-        Array.prototype.first = function() {
-            return this[0];
-        };
-
-        Array.prototype.firstAfter = function(element) {
-            var index = this.findIndex(function (curElement) {
-                return curElement == element;
-            });
-
-            if (index >= 0 && (index + 1) < this.length) {
-                return this[index + 1];
-            }
-
-            return this[0];
-        };
-
-        var model = processEncodedData("d29yZDEsIHdvcmQyLCB3b3JkMw==");
-
-        var vue = new Vue({
-            el: '#app',
-            data: {
-                words: model,
-                currentWord: model.first(),
-                secondsRemaining: 60
-            },
-            methods: {
-                next: function(answered) {
-                    var currentWord = this.currentWord;
-                    currentWord.answered = answered;
-
-                    var currentIndex = this.words.findIndex(function (curWord) {
-                        return curWord == currentWord;
-                    });
-
-                    console.log(currentIndex);
-                    var nextArray = unanswered(this.words.slice(currentIndex, this.words.length));
-
-                    if (nextArray.length == 0) {
-                        nextArray = unanswered(this.words);
-                    }
-
-
-                    this.currentWord = nextArray.firstAfter(currentWord);
-                }
-            },
-            computed: {
-
-                // We're done when they've finished all the words or they're out of time
-                finished: function() {
-                    return (this.wordsRemaining < 1 || this.secondsRemaining < 1);
-                },
-
-                wordsRemaining: function()
-                {
-                    return unanswered(this.words).length;
-                },
-
-                unansweredWords: function() {
-                    return Vue.filter('unanswered', function (word) {
-                        return word.answered;
-                    });
-                }
-            },
-            created: function() {
-                var vm = this;
-
-                setTimeout(function decrementTimer() {
-                    // We don't want to be decrementing after the game has finished.
-                    if (!vm.finished) {
-                        vm.secondsRemaining -= 1;
-                        setTimeout(decrementTimer, 1000);
-                    }
-
-                }, 1000);
-            }
-        });
-
-        function unanswered(words)
-        {
-            return words.filter(function (word) {
-                return !word.answered;
-            });
-        }
-
-
-
-        function processEncodedData(base64)
-        {
-            return atob(base64)
-                    .split(',')
-                    .map(function(word) {
-                        return {
-                            word: word.trim(),
-                            answered: false
-                        };
-                    });
-        }
-    </script>
+</div>
 </body>
 </html>
