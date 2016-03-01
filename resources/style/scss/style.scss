@@ -1,0 +1,28 @@
+@import "forms";
+
+$background-color: #048DBA;
+
+html, body { margin: 0; padding: 0;}
+
+.wrapper {
+  box-sizing: border-box;
+  padding-top:2rem;
+  padding-bottom: 2rem;
+  padding-left:4rem;
+  padding-right: 4rem;
+
+  min-height: 100vh;
+  background: $background-color;
+  text-align: center;
+}
+
+#app {
+  background: darken($background-color, 20%);
+  display: inline-block;
+  margin: 0 auto;
+  padding: 4rem;
+  text-align: center;
+  color: whitesmoke;
+}
+
+
